@@ -13,4 +13,4 @@ spec:
   # [podname].broker.kafka.svc.cluster.local
   clusterIP: None
   selector:
-    app: kafka0
+    app: kafka

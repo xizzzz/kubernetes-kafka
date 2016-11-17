@@ -1,16 +1,16 @@
 
 # List topics
-kubectl exec testclient -- ./bin/kafka-topics.sh --zookeeper zookeeper:2181 --list
+kubectl exec testclient --namespace=kafka -- ./bin/kafka-topics.sh --zookeeper zookeeper:2181 --list
 
 # Create topic
-kubectl exec testclient -- ./bin/kafka-topics.sh --zookeeper zookeeper:2181 --topic test1 --create --partitions 1 --replication-factor 1
+kubectl exec testclient --namespace=kafka -- ./bin/kafka-topics.sh --zookeeper zookeeper:2181 --topic test1 --create --partitions 1 --replication-factor 1
 
 # Set one of your terminals to listen to messages on the test topic
-kubectl exec -ti testclient -- ./bin/kafka-console-consumer.sh --zookeeper zookeeper:2181 --topic test1 --from-beginning
+kubectl exec -ti testclient --namespace=kafka -- ./bin/kafka-console-consumer.sh --zookeeper zookeeper:2181 --topic test1 --from-beginning
 
 # Go ahead and produce messages
 echo "Write a message followed by enter, exit using Ctrl+C"
-kubectl exec -ti testclient -- ./bin/kafka-console-producer.sh --broker-list kafka-0.broker.kafka.svc.cluster.local:9092 --topic test1
+kubectl exec -ti testclient --namespace=kafka -- ./bin/kafka-console-producer.sh --broker-list kafka-0.broker.kafka.svc.cluster.local:9092 --topic test1
 
 # Bootstrap even if two nodes are down (shorter name requires same namespace)
 kubectl exec -ti testclient -- ./bin/kafka-console-producer.sh --broker-list kafka-0.broker:9092,kafka-1.broker:9092,kafka-2.broker:9092 --topic test1

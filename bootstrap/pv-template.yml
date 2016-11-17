@@ -4,7 +4,7 @@ kind: PersistentVolume
 metadata:
   name: datadir-kafka-0
   labels:
-    app: kafka
+    app: kafka0
     petindex: "0"
 spec:
   accessModes:
@@ -19,8 +19,8 @@ kind: PersistentVolume
 metadata:
   name: datadir-kafka-1
   labels:
-    app: kafka
-    petindex: "1"
+    app: kafka1
+    petindex: "0"
 spec:
   accessModes:
   - ReadWriteOnce
@@ -34,8 +34,8 @@ kind: PersistentVolume
 metadata:
   name: datadir-kafka-2
   labels:
-    app: kafka
-    petindex: "2"
+    app: kafka2
+    petindex: "0"
 spec:
   accessModes:
   - ReadWriteOnce

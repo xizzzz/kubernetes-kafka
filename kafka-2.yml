@@ -1,0 +1,40 @@
+apiVersion: apps/v1alpha1
+kind: PetSet
+metadata:
+  name: kafka2
+  namespace: kafka
+spec:
+  serviceName: "broker"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: kafka2
+      annotations:
+        pod.alpha.kubernetes.io/initialized: "true"
+        pod.alpha.kubernetes.io/init-containers: '[
+        ]'
+    spec:
+      containers:
+      - name: broker
+        image: solsson/kafka-persistent:0.10.1
+        ports:
+        - containerPort: 9092
+        command:
+        - sh
+        - -c
+        - "./bin/kafka-server-start.sh config/server.properties --override broker.id=2 --override advertised.listeners=PLAINTEXT://kiwi.ics.uci.edu:9092"
+        volumeMounts:
+        - name: datadir
+          mountPath: /opt/kafka2/data
+  volumeClaimTemplates:
+  - metadata:
+      name: datadir
+      namespace: kafka
+      annotations:
+        volume.alpha.kubernetes.io/storage-class: anything
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 100Mi

@@ -2,7 +2,7 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: datadir-kafka-0
+  name: datadir-kafka0-0
   namespace: kafka
 spec:
   accessModes:
@@ -12,13 +12,13 @@ spec:
       storage: 100Mi
   selector:
     matchLabels:
-      app: kafka
+      app: kafka0
       petindex: "0"
 ---
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: datadir-kafka-1
+  name: datadir-kafka1-0
   namespace: kafka
 spec:
   accessModes:
@@ -28,13 +28,13 @@ spec:
       storage: 100Mi
   selector:
     matchLabels:
-      app: kafka
-      petindex: "1"
+      app: kafka1
+      petindex: "0"
 ---
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: datadir-kafka-2
+  name: datadir-kafka2-0
   namespace: kafka
 spec:
   accessModes:
@@ -44,5 +44,5 @@ spec:
       storage: 100Mi
   selector:
     matchLabels:
-      app: kafka
-      petindex: "2"
+      app: kafka2
+      petindex: "0"

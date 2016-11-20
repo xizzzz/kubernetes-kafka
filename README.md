@@ -8,6 +8,11 @@ To get consistent service DNS names `kafka-N.broker.kafka`(`.svc.cluster.local`)
 kubectl create -f 00namespace.yml
 ```
 
+## Set ExternalIPs
+1. Change ExternalIPs in kafka-*-svc.yml
+2. Change advertised.listeners in kafka-0.yml, kafka-1.yml, kafka-2.yml
+
+
 ## Set up volume claims
 
 This step can be skipped in clusters that support automatic volume provisioning, such as GKE.
@@ -30,24 +35,28 @@ The volume size in the example is very small. The numbers don't really matter as
 
 ## Set up Zookeeper
 
-This module contains a copy of `pets/zookeeper/` from https://github.com/kubernetes/contrib.
+This module contains a copy of `pets/zookeeper/` from https://github.com/kubernetes/contrib/tree/master/pets/zookeeper.
 
-See the `./zookeeper` folder and follow the README there.
-
-An additional service has been added here, create using:
+Start zookeeper.
 ```
+kubectl create -f ./zookeeper/zookeeper.yaml
 kubectl create -f ./zookeeper/service.yml
 ```
 
 ## Start Kafka
 
 ```
-kubectl create -f ./
+kubectl create -f ./kafka-0-svc.yml
+kubectl create -f ./kafka-1-svc.yml
+kubectl create -f ./kafka-2-svc.yml
+kubectl create -f ./kafka-0.yml
+kubectl create -f ./kafka-1.yml
+kubectl create -f ./kafka-2.yml
 ```
 
 You might want to verify in logs that Kafka found its own DNS name(s) correctly. Look for records like:
 ```
-kubectl logs kafka-0 | grep "Registered broker"
+kubectl logs kafka0-0 | grep "Registered broker"
 # INFO Registered broker 0 at path /brokers/ids/0 with addresses: PLAINTEXT -> EndPoint(kafka-0.broker.kafka.svc.cluster.local,9092,PLAINTEXT)
 ```
 
@@ -77,6 +86,10 @@ kubectl create -f test/21consumer-test1.yml
 Testing and retesting... delete the namespace. PVs are outside namespaces so delete them too.
 ```
 kubectl delete namespace kafka
-rm -R ./data/ && kubectl delete pv datadir-zoo-0 datadir-zoo-1 datadir-zoo-2
+rm -R ./zookeeper/data/ && kubectl delete pv datadir-zoo-0 datadir-zoo-1 datadir-zoo-2
 rm -R ./data/ && kubectl delete pv datadir-kafka-0 datadir-kafka-1 datadir-kafka-2
 ```
+
+## TL;DR: 
+1. change externalIPs. 
+2. run startAll.sh

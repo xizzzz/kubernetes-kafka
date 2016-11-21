@@ -9,7 +9,7 @@ kubectl create -f 00namespace.yml
 ```
 
 ## Set ExternalIPs
-1. Change ExternalIPs in kafka-*-svc.yml
+1. Change ExternalIPs in kafka-*-svc.yml, zookeeper/service.yml
 2. Change advertised.listeners in kafka-0.yml, kafka-1.yml, kafka-2.yml
 
 

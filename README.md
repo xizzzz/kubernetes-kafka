@@ -17,7 +17,19 @@ kubectl create -f 00namespace.yml
 
 This step can be skipped in clusters that support automatic volume provisioning, such as GKE.
 
-You need this step in Minikube.
+We use nfs as persistent volume.
+
+### Set up NFS
+If you haven't set up an NFS server,
+https://help.ubuntu.com/14.04/serverguide/network-file-system.html
+
+After you start nfs server, run "exportfs -a" to make sure you export it. 
+
+(You can use "showmount -e <NFS server name>" to check the result)
+
+### Create persistent volumes and persistent volume claims
+Change the nfs server and path to <b> your NFS server </b> in zookeeper/bootstrap/pv.yml and bootstrap/pv.yml
+
 
 ```
 kubectl create -f ./zookeeper/bootstrap/pv.yml
@@ -89,7 +101,3 @@ kubectl delete namespace kafka
 kubectl delete pv datadir-zoo-0 datadir-zoo-1 datadir-zoo-2
 kubectl delete pv datadir-kafka-0 datadir-kafka-1 datadir-kafka-2
 ```
-
-## TL;DR: 
-1. change externalIPs. 
-2. run startAll.sh
